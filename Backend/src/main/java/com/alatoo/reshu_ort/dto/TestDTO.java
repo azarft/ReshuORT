@@ -7,27 +7,25 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TestDTO {
 
-    private long testId;
+    private Long testId;
 
     private String testName;
 
     private String subject;
 
-    private long timeLimit;
+    private Long timeLimit;
 
-    private long createdBy;
+    private Long createdBy;
 
 }

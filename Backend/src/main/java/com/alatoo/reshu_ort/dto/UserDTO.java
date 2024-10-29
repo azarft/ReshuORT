@@ -3,20 +3,18 @@ package com.alatoo.reshu_ort.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
 
-    private long id;
+    private Long id;
 
     private String username;
 

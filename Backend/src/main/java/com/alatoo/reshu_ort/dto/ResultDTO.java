@@ -4,25 +4,23 @@ import com.alatoo.reshu_ort.entities.Test;
 import com.alatoo.reshu_ort.entities.User;
 import com.alatoo.reshu_ort.entities.UserAttempts;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResultDTO {
 
-    private long resultId;
+    private Long resultId;
 
-    private long userId;
+    private Long userId;
 
-    private long testId;
+    private Long testId;
 
     private int score;
 

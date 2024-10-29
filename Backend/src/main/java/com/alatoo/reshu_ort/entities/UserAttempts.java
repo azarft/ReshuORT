@@ -1,14 +1,12 @@
 package com.alatoo.reshu_ort.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CollectionId;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -16,7 +14,7 @@ public class UserAttempts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attempts_id")
-    private long attemptsId;
+    private Long attemptsId;
 
     @ManyToOne
     @JoinColumn(name = "result_id")

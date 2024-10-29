@@ -4,20 +4,18 @@ import com.alatoo.reshu_ort.entities.Question;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerDTO {
 
-    private long answerId;
+    private Long answerId;
 
-    private long questionId;
+    private Long questionId;
 
     private String answerText;
 

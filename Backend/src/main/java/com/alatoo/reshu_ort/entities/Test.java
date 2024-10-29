@@ -1,10 +1,7 @@
 package com.alatoo.reshu_ort.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,6 +10,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -28,7 +26,7 @@ public class Test {
     private String subject;
 
     @Column(name = "time_limit")
-    private long timeLimit;
+    private Long timeLimit;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -1,22 +1,20 @@
 package com.alatoo.reshu_ort.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAttemptsDTO {
 
-    private long attemptsId;
+    private Long attemptsId;
 
-    private long resultId;
+    private Long resultId;
 
-    private long questionId;
+    private Long questionId;
 
-    private long selectedAnswerId;
+    private Long selectedAnswerId;
 
 }
