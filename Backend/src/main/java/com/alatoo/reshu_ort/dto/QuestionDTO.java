@@ -22,7 +22,7 @@ public class QuestionDTO {
 
     private long questionId;
 
-    private long test;
+    private long testId;
 
     private String questionText;
 

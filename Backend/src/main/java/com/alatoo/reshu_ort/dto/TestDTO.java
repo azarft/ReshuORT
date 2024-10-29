@@ -28,6 +28,6 @@ public class TestDTO {
 
     private long timeLimit;
 
-    private long userId;
+    private long createdBy;
 
 }
