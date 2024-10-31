@@ -7,9 +7,9 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface QuestionMapper {
-    @Mapping(source = "testId", target = "test.id")
+    @Mapping(source = "testId", target = "test.testId")
     Question questionDtoToQuestion(QuestionDTO dto);
 
-    @Mapping(source = "test.id", target = "testId")
+    @Mapping(source = "test.testId", target = "testId")
     QuestionDTO questionToQuestionDto(Question question);
 }

@@ -2,8 +2,8 @@ package com.alatoo.reshu_ort.dto;
 
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.validator.constraints.Email;
 
 import java.time.LocalDateTime;
 
@@ -22,6 +22,7 @@ public class UserDTO {
 
     private String lastName;
 
+    @Email(message = "Invalid email format")
     private String email;
 
     private LocalDateTime createdAt;

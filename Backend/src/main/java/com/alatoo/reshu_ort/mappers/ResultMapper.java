@@ -8,10 +8,10 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface ResultMapper {
     @Mapping(source = "userId", target = "user.id")
-    @Mapping(source = "testid", target = "test.id")
+    @Mapping(source = "testId", target = "test.testId")
     Result resultDtoToResult(ResultDTO dto);
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "test.id", target = "testId")
+    @Mapping(source = "test.testId", target = "testId")
     ResultDTO resultToResultDto(Result result);
 }

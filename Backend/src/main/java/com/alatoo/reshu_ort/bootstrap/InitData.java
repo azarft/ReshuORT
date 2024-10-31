@@ -16,14 +16,14 @@ public class InitData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = User.builder()
-                .lastName("Azanov")
-                .firstName("Argen")
-                .username("azarft1")
-                .email("admin1@gmail.com")
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        userRepository.save(user);
+//        User user = User.builder()
+//                .lastName("Azanovaza")
+//                .firstName("Argena")
+//                .username("azarft1a")
+//                .email("admin1@gmailaa.com")
+//                .createdAt(LocalDateTime.now())
+//                .build();
+//
+//        userRepository.save(user);
     }
 }

@@ -7,9 +7,9 @@ import org.mapstruct.Mapping;
 
 @Mapper
 public interface AnswerMapper {
-    @Mapping(source = "questionId", target = "question.id")
+    @Mapping(source = "questionId", target = "question.questionId")
     Answer answerDtoToAnswer(AnswerDTO dto);
 
-    @Mapping(source = "question.id", target = "questionId")
+    @Mapping(source = "question.questionId", target = "questionId")
     AnswerDTO answerToAnswerDto(Answer answer);
 }
