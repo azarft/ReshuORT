@@ -1,7 +1,7 @@
 package com.alatoo.reshu_ort.mappers;
 
-import com.alatoo.reshu_ort.dto.UserAttemptsDTO;
-import com.alatoo.reshu_ort.entities.UserAttempts;
+import com.alatoo.reshu_ort.dto.UserAttemptDTO;
+import com.alatoo.reshu_ort.entities.UserAttempt;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 public interface UserAttemptsMapper {
     @Mapping(source = "resultId", target = "result.resultId")
     @Mapping(source = "questionId", target = "question.questionId")
-    UserAttempts userAttemptsDtoToUserAttempts(UserAttemptsDTO dto);
+    UserAttempt userAttemptsDtoToUserAttempts(UserAttemptDTO dto);
 
     @Mapping(source = "result.resultId", target = "resultId")
     @Mapping(source = "question.questionId", target = "questionId")
-    UserAttemptsDTO userAttemptsToUserAttemptsDto(UserAttempts userAttempts);
+    UserAttemptDTO userAttemptsToUserAttemptsDto(UserAttempt userAttempt);
 }

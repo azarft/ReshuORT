@@ -21,9 +21,10 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "test_id")
+    @Column(nullable = false)
     private Test test;
 
-    @Column(name = "question_text")
+    @Column(name = "question_text", nullable = false)
     private String questionText;
 
     @OneToMany(mappedBy = "question")

@@ -2,6 +2,7 @@ package com.alatoo.reshu_ort.entities;
 
 
 import com.alatoo.reshu_ort.enums.Role;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -49,6 +50,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "createdBy")
     private Set<Test> tests;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
 
     @PrePersist
     private void init(){

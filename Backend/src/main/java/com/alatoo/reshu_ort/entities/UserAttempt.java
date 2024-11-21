@@ -2,7 +2,6 @@ package com.alatoo.reshu_ort.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CollectionId;
 
 @Getter
 @Setter
@@ -10,7 +9,7 @@ import org.hibernate.annotations.CollectionId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class UserAttempts {
+public class UserAttempt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "attempts_id")

@@ -30,6 +30,7 @@ public class Test {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Column(nullable = false)
     private User createdBy;
 
     @OneToMany(mappedBy = "test")

@@ -1,26 +1,34 @@
 package com.alatoo.reshu_ort.services.user;
 
 import com.alatoo.reshu_ort.dto.UserDTO;
+import com.alatoo.reshu_ort.dto.authorization.AuthRegistrationDTO;
 import com.alatoo.reshu_ort.entities.User;
+import com.alatoo.reshu_ort.enums.Role;
 import com.alatoo.reshu_ort.exceptions.ApiException;
 import com.alatoo.reshu_ort.mappers.UserMapper;
 import com.alatoo.reshu_ort.repositories.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
-@Slf4j
 public class UserServiceJPA implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserMapper userMapper;
+    public UserServiceJPA(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
@@ -34,9 +42,38 @@ public class UserServiceJPA implements UserService {
         } catch (DataIntegrityViolationException e) {
             throw new ApiException("User " + userDTO.getUsername() + " is already exists", HttpStatusCode.valueOf(409));
         } catch (Exception e) {
-            log.error("Error", e);
             throw new ApiException("Error while user creating", HttpStatusCode.valueOf(400));
         }
-
     }
+
+    @Override
+    public UserDTO register(AuthRegistrationDTO authRegistrationDTO) {
+        User user = userMapper.authRegistrationDtoToUserEntity(authRegistrationDTO);
+        user.setRole(Role.ROLE_USER);
+        user.setPassword(passwordEncoder.encode(authRegistrationDTO.getPassword()));
+
+        User savedUser = userRepository.save(user);
+        return userMapper.userToUserDto(savedUser);
+    }
+
+    @Override
+    public void deleteUser() {
+        User user = getCurrentUser();
+        userRepository.deleteById(user.getId());
+    }
+
+
+    @Override
+    public User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof User userDetails) {
+            Optional<User> optionalUser = userRepository.findById(userDetails.getId());
+            User user = optionalUser.orElseThrow(() -> new ApiException("User not found with id", HttpStatusCode.valueOf(409)));
+            return user;
+        } else {
+            return null;
+        }
+    }
+
 }

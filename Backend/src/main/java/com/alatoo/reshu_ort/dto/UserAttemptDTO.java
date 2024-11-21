@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAttemptsDTO {
+public class UserAttemptDTO {
 
     private Long attemptsId;
 

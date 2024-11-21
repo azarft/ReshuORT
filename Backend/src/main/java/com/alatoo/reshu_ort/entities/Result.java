@@ -24,15 +24,17 @@ public class Result {
     private User user;
 
     @OneToOne
+    @Column(nullable = false)
     private Test test;
 
+    @Column(nullable = false)
     private int score;
 
     @Column(name = "attempt_date")
     private LocalDateTime attemptDate;
 
     @OneToMany(mappedBy = "result")
-    private Set<UserAttempts> userAttempts;
+    private Set<UserAttempt> userAttempts;
 
     @PrePersist
     private void init(){

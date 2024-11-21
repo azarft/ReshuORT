@@ -1,13 +1,8 @@
 package com.alatoo.reshu_ort.dto;
 
-import com.alatoo.reshu_ort.entities.Test;
-import com.alatoo.reshu_ort.entities.User;
-import com.alatoo.reshu_ort.entities.UserAttempts;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @Setter
