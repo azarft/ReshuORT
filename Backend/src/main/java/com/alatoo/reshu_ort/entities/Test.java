@@ -29,8 +29,7 @@ public class Test {
     private Long timeLimit;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User createdBy;
 
     @OneToMany(mappedBy = "test")

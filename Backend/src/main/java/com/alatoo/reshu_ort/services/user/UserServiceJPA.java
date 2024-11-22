@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceJPA implements UserService {
@@ -28,6 +29,13 @@ public class UserServiceJPA implements UserService {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public Optional<UserDTO> findUserByID(Long id) {
+        Optional<User> optionalUserEntity = userRepository.findById(id);
+        User user = optionalUserEntity.orElseThrow(() -> new ApiException("User not found with id" + id , HttpStatusCode.valueOf(409)));
+        return Optional.of(userMapper.userToUserDto(user));
     }
 
     @Override
@@ -69,7 +77,7 @@ public class UserServiceJPA implements UserService {
         Object principal = authentication.getPrincipal();
         if (principal instanceof User userDetails) {
             Optional<User> optionalUser = userRepository.findById(userDetails.getId());
-            User user = optionalUser.orElseThrow(() -> new ApiException("User not found with id", HttpStatusCode.valueOf(409)));
+            User user = optionalUser.orElseThrow(() -> new ApiException("User not found with id " + userDetails.getId(), HttpStatusCode.valueOf(409)));
             return user;
         } else {
             return null;

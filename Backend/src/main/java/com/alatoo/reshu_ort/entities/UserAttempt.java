@@ -23,6 +23,6 @@ public class UserAttempt {
     private Question question;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "selected_answer_id")
+    @JoinColumn(name = "selected_answer_id")
     private Answer selectedAnswer;
 }

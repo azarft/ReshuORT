@@ -1,8 +1,11 @@
 package com.alatoo.reshu_ort.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,8 +23,7 @@ public class Question {
     private Long questionId;
 
     @ManyToOne
-    @JoinColumn(name = "test_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "test_id", nullable = false)
     private Test test;
 
     @Column(name = "question_text", nullable = false)

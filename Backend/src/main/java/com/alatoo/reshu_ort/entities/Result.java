@@ -24,7 +24,7 @@ public class Result {
     private User user;
 
     @OneToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private Test test;
 
     @Column(nullable = false)
