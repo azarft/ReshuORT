@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  .review-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  #testDetails {
+    margin-bottom: 20px;
+  }
+  
+  .question {
+    margin-bottom: 20px;
+  }
+  
+  .answer {
+    margin-left: 20px;
+  }
+  
+  .correct {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .incorrect {
+    color: red;
+    font-weight: bold;
+  }
+  
+  

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Test</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/add_test.css">
+</head>
+<body>
+  <div class="add-test-container">
+    <h1>Add New Test</h1>
+    <form id="addTestForm" class="form-container">
+      <div class="form-group">
+        <label for="testName">Test Name:</label>
+        <input type="text" id="testName" name="testName" class="input-field" required>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" class="input-field" required>
+      </div>
+
+      <div class="form-group">
+        <label for="timeLimit">Time Limit (minutes):</label>
+        <input type="number" id="timeLimit" name="timeLimit" class="input-field" required>
+      </div>
+
+      <div id="questionsContainer">
+        <!-- Questions and answers will be dynamically added here -->
+      </div>
+
+      <button type="button" id="addQuestionButton" class="btn add-question">Add Question</button>
+      <button type="submit" class="btn submit-test">Add Test</button>
+    </form>
+    <div id="errorMessage" class="error-message"></div>
+  </div>
+  <script src="js/add_test.js"></script>
+</body>
+</html>

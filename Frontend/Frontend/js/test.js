@@ -5,10 +5,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     const testForm = document.getElementById("testForm");
     const resultContainer = document.getElementById("resultContainer");
     const scoreSpan = document.getElementById("score");
+    const timerElement = document.getElementById("timer");
 
     if (!testId || !token) {
         window.location.href = "dashboard.html"; // Redirect if no test is selected
         return;
+    }
+
+    let timeLimit = 0;
+
+    try {
+        // Fetch test details to get the time limit
+        const testResponse = await fetch(`http://localhost:8080/api/v1/tests/${testId}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token.trim()}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!testResponse.ok) {
+            throw new Error("Failed to load test details");
+        }
+
+        const testDetails = await testResponse.json();
+        timeLimit = testDetails.timeLimit; // Get the time limit from the test details (in minutes)
+
+        // Start the countdown timer
+        startCountdown(timeLimit);
+    } catch (error) {
+        console.error("Error loading test details:", error);
     }
 
     async function fetchAnswersForQuestion(questionId) {
@@ -80,7 +106,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Submit Test
-    testForm.addEventListener("submit", async (e) => {
+    testForm.addEventListener("submit", handleTestSubmission);
+
+    function handleTestSubmission(e) {
         e.preventDefault();
 
         const selectedAnswers = [];
@@ -106,6 +134,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const totalQuestions = allQuestions.length;
         const score = Math.round((correctAnswersCount / totalQuestions) * 100);
 
+        submitTestResults(score, selectedAnswers);
+    }
+
+    async function submitTestResults(score, selectedAnswers) {
         try {
             // Step 1: Create a result with score
             let resultResponse = await fetch("http://localhost:8080/api/v1/results", {
@@ -116,19 +148,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 },
                 body: JSON.stringify({ testId, score }), // Send score with result creation
             });
-
-            if (resultResponse.status === 401) {
-                console.warn("Token expired. Refreshing token...");
-                const newToken = await refreshToken();
-                resultResponse = await fetch("http://localhost:8080/api/v1/results", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${newToken.trim()}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ testId, score }),
-                });
-            }
 
             if (!resultResponse.ok) {
                 throw new Error("Failed to create result");
@@ -147,24 +166,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             let attemptResponse = await fetch("http://localhost:8080/api/v1/userattempts", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("accessToken").trim()}`,
+                    "Authorization": `Bearer ${token.trim()}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(userAttempts),
             });
-
-            if (attemptResponse.status === 401) {
-                console.warn("Token expired. Refreshing token...");
-                const newToken = await refreshToken();
-                attemptResponse = await fetch("http://localhost:8080/api/v1/userattempts", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${newToken.trim()}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(userAttempts),
-                });
-            }
 
             if (!attemptResponse.ok) {
                 throw new Error("Failed to submit attempts");
@@ -179,28 +185,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         } catch (error) {
             console.error("Error submitting test:", error);
         }
-    });
+    }
 
-    async function refreshToken() {
-        const storedRefreshToken = localStorage.getItem("refreshToken");
-        try {
-            const response = await fetch("http://localhost:8080/api/v1/auth/refreshToken", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token: storedRefreshToken }),
-            });
+    function startCountdown(minutes) {
+        let timeRemaining = minutes * 60;
 
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem("accessToken", data.accessToken);
-                return data.accessToken; // Return the new token
-            } else {
-                console.error("Failed to refresh token. Redirecting to login...");
-                window.location.href = "login.html"; // Redirect to login if refresh fails
+        const timerInterval = setInterval(() => {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+
+            timerElement.textContent = `Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                alert("Time's up! The test will be automatically submitted.");
+                handleTestSubmission(new Event("submit")); // Automatically submit the test
             }
-        } catch (error) {
-            console.error("Error refreshing token:", error);
-            window.location.href = "login.html"; // Redirect to login
-        }
+
+            timeRemaining--;
+        }, 1000);
     }
 });

@@ -48,4 +48,11 @@ public class QuestionServiceJPA implements QuestionService {
         }
         questionRepository.deleteById(id);
     }
+
+    @Override
+    public QuestionDTO findQuestionBy(Long id) {
+        Optional<Question> optionalQuestion = questionRepository.findById(id);
+        Question question = optionalQuestion.orElseThrow(() -> new ApiException("Question not found with id", HttpStatusCode.valueOf(409)));
+        return questionMapper.questionToQuestionDto(question);
+    }
 }

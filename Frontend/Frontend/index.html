@@ -9,7 +9,12 @@
 </head>
 <body>
   <div class="dashboard-container">
-    <h1>Welcome to the Test Dashboard</h1>
+    <div class="header">
+      <h1>Welcome to the Test Dashboard</h1>
+      <button id="logoutButton" class="btn btn-logout">Logout</button>
+      <button id="viewResultsButton" class="btn btn-primary">View Results</button>
+      <button id="addTestButton" class="btn btn-primary">Add Test</button>
+    </div>
     <table id="testsTable">
       <thead>
         <tr>
@@ -26,5 +31,6 @@
     <div id="errorMessage" class="error-message"></div>
   </div>
   <script src="js/dashboard.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

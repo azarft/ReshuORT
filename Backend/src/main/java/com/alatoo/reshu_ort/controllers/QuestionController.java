@@ -29,6 +29,11 @@ public class QuestionController {
         return questionService.findAllQuestionsOfTest(id);
     }
 
+    @GetMapping(QUESTION_PATH + "/question" + ID_PATH)
+    public QuestionDTO getQuestionById(@PathVariable Long id) {
+        return questionService.findQuestionBy(id);
+    }
+
     @PostMapping(QUESTION_PATH)
     public QuestionDTO saveQuestion(@RequestBody QuestionDTO dto) {
         return questionService.saveQuestion(dto);

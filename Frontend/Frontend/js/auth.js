@@ -91,4 +91,18 @@ function displayError(message) {
       registerForm.addEventListener("submit", registerUser);
     }
   });
+
+  function logoutUser() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    window.location.href = "login.html";
+  }
+  
+  // Attach event listener for logout button
+  document.addEventListener("DOMContentLoaded", () => {
+    const logoutButton = document.getElementById("logoutButton");
+    if (logoutButton) {
+      logoutButton.addEventListener("click", logoutUser);
+    }
+  });
   
