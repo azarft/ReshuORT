@@ -27,7 +27,7 @@ public class AnswerController {
     }
 
 
-    @GetMapping(ANSWER_PATH)
+    @GetMapping(ANSWER_PATH + ID_PATH)
     public List<AnswerDTO> getAllAnswers(@PathVariable Long id) {
         return answerService.getAllAnswersOfQuestion(id);
     }

@@ -6,6 +6,7 @@ import com.alatoo.reshu_ort.repositories.*;
 import com.alatoo.reshu_ort.repositories.UserAttemptsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,9 @@ import java.util.List;
 public class InitData implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private TestRepository testRepository;
@@ -39,7 +43,7 @@ public class InitData implements CommandLineRunner {
                 .firstName("Argena")
                 .username("azarft1a")
                 .email("admin1@gmailaa.com")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .role(Role.ROLE_ADMIN)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -50,13 +54,12 @@ public class InitData implements CommandLineRunner {
                 .firstName("Argen")
                 .username("azarft")
                 .email("user@gmailaa.com")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .role(Role.ROLE_USER)
                 .createdAt(LocalDateTime.now())
                 .build();
         userRepository.save(user);
 
-        // Add tests
         Test test1 = Test.builder()
                 .testName("Math Basics")
                 .subject("Mathematics")
@@ -73,11 +76,9 @@ public class InitData implements CommandLineRunner {
                 .build();
         testRepository.save(test2);
 
-        // Add questions and answers to both tests
         addQuestionsAndAnswers(test1);
         addQuestionsAndAnswers(test2);
 
-        // Add results and user attempts
         Result result1 = Result.builder()
                 .user(admin)
                 .test(test1)

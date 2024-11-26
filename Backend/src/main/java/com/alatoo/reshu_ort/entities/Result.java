@@ -23,7 +23,7 @@ public class Result {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(nullable = false)
     private Test test;
 
@@ -32,12 +32,4 @@ public class Result {
 
     @Column(name = "attempt_date")
     private LocalDateTime attemptDate;
-
-    @OneToMany(mappedBy = "result")
-    private Set<UserAttempt> userAttempts;
-
-    @PrePersist
-    private void init(){
-        this.userAttempts = new HashSet<>();
-    }
 }

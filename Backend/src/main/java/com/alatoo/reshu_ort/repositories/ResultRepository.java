@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface ResultRepository extends JpaRepository<Result, Long> {
     List<Result> getResultsByUserId(Long id);
+    List<Result> getResultsByTestTestId(Long id);
     boolean existsByResultIdAndUserId(Long id, Long userId);
     Optional<Result> findByResultIdAndUserId(Long id, Long userId);
+
 }

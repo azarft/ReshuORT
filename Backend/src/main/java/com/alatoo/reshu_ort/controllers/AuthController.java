@@ -42,6 +42,7 @@ public class AuthController {
     public JwtTokenDto AuthenticateAndGetToken(@RequestBody AuthLoginDto authRequestDTO){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(), authRequestDTO.getPassword()));
         if(authentication.isAuthenticated()){
+            System.out.println("Refresh Token sent to user");
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDTO.getUsername());
             return JwtTokenDto.builder()
                     .accessToken(jwtService.GenerateToken(authRequestDTO.getUsername()))
@@ -53,7 +54,7 @@ public class AuthController {
         }
     }
     @PostMapping("/refreshToken")
-    public JwtTokenDto refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO){
+    public JwtTokenDto refreshToken(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
         return refreshTokenService.findByToken(refreshTokenRequestDTO.getToken())
                 .map(refreshTokenService::verifyExpiration)
                 .map(RefreshToken::getUser)
@@ -61,7 +62,9 @@ public class AuthController {
                     String accessToken = jwtService.GenerateToken(userInfo.getUsername());
                     return JwtTokenDto.builder()
                             .accessToken(accessToken)
-                            .token(refreshTokenRequestDTO.getToken()).build();
-                }).orElseThrow(() ->new RuntimeException("Refresh Token is not in Database!!"));
+                            .token(refreshTokenRequestDTO.getToken())
+                            .build();
+                }).orElseThrow(() -> new RuntimeException("Refresh Token is not in Database!!"));
     }
+
 }

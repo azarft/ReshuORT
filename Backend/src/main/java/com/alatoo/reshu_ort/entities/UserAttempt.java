@@ -19,10 +19,10 @@ public class UserAttempt {
     @JoinColumn(name = "result_id")
     private Result result;
 
-    @OneToOne
+    @ManyToOne
     private Question question;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "selected_answer_id")
     private Answer selectedAnswer;
 }

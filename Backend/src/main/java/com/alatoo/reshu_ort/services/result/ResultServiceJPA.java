@@ -10,6 +10,7 @@ import com.alatoo.reshu_ort.services.user.UserService;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class ResultServiceJPA implements ResultService {
     }
 
     @Override
-    public List<ResultDTO> findAllUserResultsBy() {
+    public List<ResultDTO> findAllUserResults() {
         User user = userService.getCurrentUser();
         List<Result> results = resultRepository.getResultsByUserId(user.getId());
         return results.stream()
@@ -37,7 +38,10 @@ public class ResultServiceJPA implements ResultService {
 
     @Override
     public ResultDTO saveResult(ResultDTO dto) {
+        User user = userService.getCurrentUser();
         Result result = resultMapper.resultDtoToResult(dto);
+        result.setAttemptDate(LocalDateTime.now());
+        result.setUser(user);
         Result savedResult = resultRepository.save(result);
         return resultMapper.resultToResultDto(savedResult);
     }
@@ -57,5 +61,13 @@ public class ResultServiceJPA implements ResultService {
         Optional<Result> optionalResult = resultRepository.findByResultIdAndUserId(id, user.getId());
         Result result = optionalResult.orElseThrow(() -> new ApiException("Result not found with id", HttpStatusCode.valueOf(409)));
         return resultMapper.resultToResultDto(result);
+    }
+
+    @Override
+    public List<ResultDTO> findAllResultsByTestId(Long id) {
+        List<Result> results = resultRepository.getResultsByTestTestId(id);
+        return results.stream()
+                .map(resultMapper::resultToResultDto)
+                .collect(Collectors.toList());
     }
 }

@@ -2,7 +2,6 @@ package com.alatoo.reshu_ort.services;
 
 import com.alatoo.reshu_ort.entities.User;
 import com.alatoo.reshu_ort.repositories.UserRepository;
-import com.alatoo.reshu_ort.model.UserDetailModel;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,7 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
-        return user.map(UserDetailModel::new).orElseThrow(()->new UsernameNotFoundException("Invalid Username"));
+        return user.map(User::new).orElseThrow(()->new UsernameNotFoundException("Invalid Username"));
     }
 }
 

@@ -5,11 +5,14 @@ import com.alatoo.reshu_ort.entities.UserAttempt;
 import com.alatoo.reshu_ort.exceptions.ApiException;
 import com.alatoo.reshu_ort.mappers.UserAttemptsMapper;
 import com.alatoo.reshu_ort.repositories.UserAttemptsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 public class UserAttemptsServiceJPA implements UserAttemptsService {
@@ -20,6 +23,24 @@ public class UserAttemptsServiceJPA implements UserAttemptsService {
         this.userAttemptsRepository = userAttemptsRepository;
         this.userAttemptsMapper = userAttemptsMapper;
     }
+
+    @Transactional
+    @Override
+    public UserAttemptDTO saveAttempt(UserAttemptDTO attemptDTO) {
+        UserAttempt attempt = userAttemptsMapper.userAttemptsDtoToUserAttempts(attemptDTO);
+        UserAttempt savedUserAttempt = userAttemptsRepository.save(attempt);
+        return userAttemptsMapper.userAttemptsToUserAttemptsDto(savedUserAttempt);
+    }
+
+    @Override
+    public List<UserAttemptDTO> saveAttempts(List<UserAttemptDTO> attemptDTOs) {
+        List<UserAttempt> attempts = attemptDTOs.stream()
+                .map(userAttemptsMapper::userAttemptsDtoToUserAttempts)
+                .collect(Collectors.toList());
+        userAttemptsRepository.saveAll(attempts);
+        return attemptDTOs;
+    }
+
 
     @Override
     public List<UserAttemptDTO> findAllUserAttemptsOfResult(Long id) {

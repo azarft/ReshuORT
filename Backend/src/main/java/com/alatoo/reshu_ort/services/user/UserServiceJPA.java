@@ -59,6 +59,7 @@ public class UserServiceJPA implements UserService {
         User user = userMapper.authRegistrationDtoToUserEntity(authRegistrationDTO);
         user.setRole(Role.ROLE_USER);
         user.setPassword(passwordEncoder.encode(authRegistrationDTO.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);
         return userMapper.userToUserDto(savedUser);

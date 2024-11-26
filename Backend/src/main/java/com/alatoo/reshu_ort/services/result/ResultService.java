@@ -11,8 +11,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface ResultService {
-    public List<ResultDTO> findAllUserResultsBy();
-    public ResultDTO saveResult(ResultDTO dto);
-    public void deleteResult(Long id);
-    public ResultDTO getResultById(Long id);
+    List<ResultDTO> findAllUserResults();
+    ResultDTO saveResult(ResultDTO dto);
+    void deleteResult(Long id);
+    ResultDTO getResultById(Long id);
+    List<ResultDTO> findAllResultsByTestId(Long id);
 }

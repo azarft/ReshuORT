@@ -26,8 +26,13 @@ public class ResultController {
     }
 
     @GetMapping(RESULT_PATH)
-    public List<ResultDTO> getAllTests() {
-        return resultService.findAllUserResultsBy();
+    public List<ResultDTO> getAllResults() {
+        return resultService.findAllUserResults();
+    }
+
+    @GetMapping(RESULT_PATH + "/test" + ID_PATH)
+    public List<ResultDTO> getAllResultsOfTest(@PathVariable Long id) {
+        return resultService.findAllResultsByTestId(id);
     }
 
     @GetMapping(RESULT_PATH + ID_PATH)
@@ -48,7 +53,7 @@ public class ResultController {
     }
 
     @DeleteMapping(RESULT_PATH + ID_PATH)
-    public void deleteTest(@PathVariable Long id) {
+    public void deleteResult(@PathVariable Long id) {
         resultService.deleteResult(id);
     }
 }
