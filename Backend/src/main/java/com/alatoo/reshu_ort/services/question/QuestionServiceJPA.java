@@ -55,4 +55,12 @@ public class QuestionServiceJPA implements QuestionService {
         Question question = optionalQuestion.orElseThrow(() -> new ApiException("Question not found with id", HttpStatusCode.valueOf(409)));
         return questionMapper.questionToQuestionDto(question);
     }
+
+    @Override
+    public List<QuestionDTO> findAllQuestions() {
+        List<Question> questions = questionRepository.findAll();
+        return questions.stream()
+                .map(questionMapper::questionToQuestionDto)
+                .collect(Collectors.toList());
+    }
 }

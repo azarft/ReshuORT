@@ -33,13 +33,24 @@ public class InitData implements CommandLineRunner {
         User admin = User.builder()
                 .lastName("Azanov")
                 .firstName("Argen")
-                .username("azarft1a")
+                .username("admin")
                 .email("admin1@gmailaa.com")
                 .password(passwordEncoder.encode("password"))
                 .role(Role.ROLE_ADMIN)
                 .createdAt(LocalDateTime.now())
                 .build();
         userRepository.save(admin);
+
+        User user = User.builder()
+                .lastName("User")
+                .firstName("User")
+                .username("user")
+                .email("user@gmailaa.com")
+                .password(passwordEncoder.encode("password"))
+                .role(Role.ROLE_USER)
+                .createdAt(LocalDateTime.now())
+                .build();
+        userRepository.save(user);
 
         // Add the Kyrgyz Language Test
         Test kyrgyzTest = Test.builder()

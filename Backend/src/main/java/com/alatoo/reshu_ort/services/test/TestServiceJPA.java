@@ -37,7 +37,7 @@ public class TestServiceJPA implements TestService {
     @Override
     public Optional<TestDTO> findTestById(Long id) {
         Optional<Test> optionalTest = testRepository.findById(id);
-        Test test = optionalTest.orElseThrow(() -> new ApiException("Album not found with id: " + id, HttpStatusCode.valueOf(409)));
+        Test test = optionalTest.orElseThrow(() -> new ApiException("Test not found with id: " + id, HttpStatusCode.valueOf(409)));
         return Optional.of(testMapper.testToTestDto(test));
     }
 
@@ -54,7 +54,15 @@ public class TestServiceJPA implements TestService {
     public void deleteTest(Long id) {
         User user = userService.getCurrentUser();
         if (!testRepository.existsByTestIdAndCreatedById(id, user.getId())) {
-            throw new ApiException("Album not found with id: " + id, HttpStatusCode.valueOf(409));
+            throw new ApiException("Test not found with id: " + id, HttpStatusCode.valueOf(409));
+        }
+        testRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteTestById(Long id) {
+        if (!testRepository.existsById(id)) {
+            throw new ApiException("Test not found with id: " + id, HttpStatusCode.valueOf(409));
         }
         testRepository.deleteById(id);
     }

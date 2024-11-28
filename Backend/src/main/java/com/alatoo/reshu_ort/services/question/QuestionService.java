@@ -12,4 +12,6 @@ public interface QuestionService {
     public QuestionDTO saveQuestion(QuestionDTO dto);
     public void deleteQuestion(Long id);
     QuestionDTO findQuestionBy(Long id);
+    List<QuestionDTO> findAllQuestions();
+
 }

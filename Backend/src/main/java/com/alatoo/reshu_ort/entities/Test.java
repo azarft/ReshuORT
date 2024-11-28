@@ -32,11 +32,15 @@ public class Test {
     @JoinColumn(name = "user_id", nullable = false)
     private User createdBy;
 
-    @OneToMany(mappedBy = "test")
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Question> questions;
+
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Result> results;
 
     @PrePersist
     private void init(){
         this.questions = new HashSet<>();
+        this.results = new HashSet<>();
     }
 }

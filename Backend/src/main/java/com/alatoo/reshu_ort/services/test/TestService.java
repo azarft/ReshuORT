@@ -11,4 +11,5 @@ public interface TestService {
     TestDTO saveTest(TestDTO dto);
     void deleteTest(Long id);
     List<TestDTO> findUsersTests();
+    void deleteTestById(Long id);
 }

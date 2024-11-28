@@ -16,4 +16,6 @@ public interface ResultService {
     void deleteResult(Long id);
     ResultDTO getResultById(Long id);
     List<ResultDTO> findAllResultsByTestId(Long id);
+    List<ResultDTO> findAllResults();
+    void deleteResultById(Long id);
 }

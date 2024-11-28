@@ -50,7 +50,15 @@ public class ResultServiceJPA implements ResultService {
     public void deleteResult(Long id) {
         User user = userService.getCurrentUser();
         if (!resultRepository.existsByResultIdAndUserId(id, user.getId())) {
-            throw new ApiException("Result not found with id", HttpStatusCode.valueOf(409));
+            throw new ApiException("Result not found with id " + id, HttpStatusCode.valueOf(409));
+        }
+        resultRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteResultById(Long id) {
+        if (!resultRepository.existsById(id)) {
+            throw new ApiException("Result not found with id " + id, HttpStatusCode.valueOf(409));
         }
         resultRepository.deleteById(id);
     }
@@ -59,7 +67,7 @@ public class ResultServiceJPA implements ResultService {
     public ResultDTO getResultById(Long id) {
         User user = userService.getCurrentUser();
         Optional<Result> optionalResult = resultRepository.findByResultIdAndUserId(id, user.getId());
-        Result result = optionalResult.orElseThrow(() -> new ApiException("Result not found with id", HttpStatusCode.valueOf(409)));
+        Result result = optionalResult.orElseThrow(() -> new ApiException("Result not found with id " + id, HttpStatusCode.valueOf(409)));
         return resultMapper.resultToResultDto(result);
     }
 
@@ -70,4 +78,14 @@ public class ResultServiceJPA implements ResultService {
                 .map(resultMapper::resultToResultDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ResultDTO> findAllResults() {
+        List<Result> results = resultRepository.findAll();
+        return results.stream()
+                .map(resultMapper::resultToResultDto)
+                .collect(Collectors.toList());
+    }
+
+
 }

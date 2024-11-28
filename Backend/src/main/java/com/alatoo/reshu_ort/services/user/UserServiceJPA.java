@@ -2,6 +2,7 @@ package com.alatoo.reshu_ort.services.user;
 
 import com.alatoo.reshu_ort.dto.UserDTO;
 import com.alatoo.reshu_ort.dto.authorization.AuthRegistrationDTO;
+import com.alatoo.reshu_ort.entities.Test;
 import com.alatoo.reshu_ort.entities.User;
 import com.alatoo.reshu_ort.enums.Role;
 import com.alatoo.reshu_ort.exceptions.ApiException;
@@ -13,11 +14,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
+
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceJPA implements UserService {
@@ -71,6 +74,14 @@ public class UserServiceJPA implements UserService {
         userRepository.deleteById(user.getId());
     }
 
+    @Override
+    public void deleteUserById(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new ApiException("Test not found with id: " + id, HttpStatusCode.valueOf(409));
+        }
+        userRepository.deleteById(id);
+    }
+
 
     @Override
     public User getCurrentUser(){
@@ -83,6 +94,32 @@ public class UserServiceJPA implements UserService {
         } else {
             return null;
         }
+    }
+
+
+    private Role getUsersRole(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof User userDetails) {
+            Optional<User> optionalUser = userRepository.findById(userDetails.getId());
+            User user = optionalUser.orElseThrow(() -> new ApiException("User not found with id " + userDetails.getId(), HttpStatusCode.valueOf(409)));
+            return user.getRole();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public boolean isUserAdmin() {
+        return getUsersRole() == Role.ROLE_ADMIN;
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(userMapper::userToUserDto)
+                .collect(Collectors.toList());
     }
 
 }

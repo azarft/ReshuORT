@@ -6,6 +6,7 @@ import com.alatoo.reshu_ort.services.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,11 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping(USER_PATH)
+    @GetMapping(USER_PATH + ID_PATH)
     public UserDTO getUserById(@PathVariable Long id) {
+        if (!userService.isUserAdmin()) {
+            throw new ApiException("Forbidden: " + id, HttpStatus.FORBIDDEN);
+        }
         return userService.findUserByID(id).orElseThrow(() -> new ApiException("User not found with id" + id , HttpStatusCode.valueOf(409)));
     }
 

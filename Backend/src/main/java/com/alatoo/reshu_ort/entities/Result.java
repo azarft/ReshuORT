@@ -30,6 +30,9 @@ public class Result {
     @Column(nullable = false)
     private int score;
 
+    @OneToMany(mappedBy = "result", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserAttempt> userAttempts;
+
     @Column(name = "attempt_date")
     private LocalDateTime attemptDate;
 }

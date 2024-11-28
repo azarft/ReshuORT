@@ -42,8 +42,5 @@ public class AnswerServiceJPA implements AnswerService {
             throw new ApiException("Question not found with id", HttpStatusCode.valueOf(409));
         }
         answerRepository.deleteById(id);
-
     }
-
-
 }

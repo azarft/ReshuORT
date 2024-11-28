@@ -29,8 +29,11 @@ public class Question {
     @Column(name = "question_text", nullable = false)
     private String questionText;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Answer> answers;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserAttempt> userAttempts;
 
     @PrePersist
     private void init(){
