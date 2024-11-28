@@ -31,8 +31,8 @@ public class InitData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Add users
         User admin = User.builder()
-                .lastName("Azanovaza")
-                .firstName("Argena")
+                .lastName("Azanov")
+                .firstName("Argen")
                 .username("azarft1a")
                 .email("admin1@gmailaa.com")
                 .password(passwordEncoder.encode("password"))
@@ -50,10 +50,8 @@ public class InitData implements CommandLineRunner {
                 .build();
         testRepository.save(kyrgyzTest);
 
-        // Add Questions and Answers to the Kyrgyz Language Test
         addKyrgyzLanguageTestQuestions(kyrgyzTest);
 
-        // Add the Analogy Test
         Test analogyTest = Test.builder()
                 .testName("Аналогиялар 2")
                 .subject("Кыргыз тили")
@@ -62,7 +60,6 @@ public class InitData implements CommandLineRunner {
                 .build();
         testRepository.save(analogyTest);
 
-        // Add Questions and Answers to the Analogy Test
         addAnalogyTestQuestions(analogyTest);
     }
 

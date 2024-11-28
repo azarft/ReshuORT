@@ -3,7 +3,6 @@ package com.alatoo.reshu_ort.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.type.TrueFalseConverter;
 
 @Getter
 @Setter
